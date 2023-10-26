@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.base} \PYG{k+kn}{import} \PYG{n}{BaseEstimator}\PYG{p}{,} \PYG{n}{TransformerMixin}
+
+\PYG{k}{class} \PYG{n+nc}{Standardizer}\PYG{p}{(}\PYG{n}{BaseEstimator}\PYG{p}{,} \PYG{n}{TransformerMixin}\PYG{p}{):}
+
+\PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,}\PYG{n}{mean\PYGZus{}after\PYGZus{}transform} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{):}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean} \PYG{n}{after} \PYG{n}{transform} \PYG{o}{=} \PYG{n}{mean} \PYG{n}{after} \PYG{n}{transform}
+
+\PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean\PYGZus{}} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} columwise mean}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{std\PYGZus{}} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{std}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} columwise std}
+    \PYG{k}{return} \PYG{n+nb+bp}{self}
+
+\PYG{k}{def} \PYG{n+nf}{transform}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{):}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{X} \PYG{o}{\PYGZhy{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean}\PYG{o}{\PYGZca{}\PYGZca{}}\PYG{n}{I\PYGZus{}}\PYG{p}{)} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{std\PYGZus{}} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{mean\PYGZus{}after\PYGZus{}transform}
+\end{Verbatim}

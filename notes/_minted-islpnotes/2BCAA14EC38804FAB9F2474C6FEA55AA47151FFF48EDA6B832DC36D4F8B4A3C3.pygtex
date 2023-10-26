@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{object}\PYG{+w}{ }\PYG{n+nc}{Huffman}\PYG{+w}{ }\PYG{k}{extends}\PYG{+w}{ }\PYG{n+nc}{Huffman}
+\end{Verbatim}

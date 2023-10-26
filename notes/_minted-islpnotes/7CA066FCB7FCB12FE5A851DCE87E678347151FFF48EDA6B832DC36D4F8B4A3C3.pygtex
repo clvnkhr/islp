@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{op1}\PYG{p}{(}\PYG{n}{x}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{S}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{R}\PYG{+w}{             }\PYG{c+c1}{// ok}
+\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{op2}\PYG{p}{[}\PYG{n+nc}{T}\PYG{p}{](}\PYG{n}{x}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{T}\PYG{p}{)(}\PYG{n}{y}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{S}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{R}\PYG{+w}{    }\PYG{c+c1}{// ok}
+\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{op3}\PYG{p}{[}\PYG{n+nc}{T}\PYG{p}{](}\PYG{n}{x}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{T}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{S}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{R}\PYG{+w}{    }\PYG{c+c1}{// error: two parameters}
+
+\PYG{k}{extension}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{x}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{A}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{op4}\PYG{p}{(}\PYG{n}{y}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{B}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{R}\PYG{+w}{          }\PYG{c+c1}{// ok}
+\PYG{+w}{  }\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{op5}\PYG{p}{(}\PYG{n}{y1}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{B}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y2}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{B}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{R}\PYG{+w}{  }\PYG{c+c1}{// error: two parameters}
+\end{Verbatim}

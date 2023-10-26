@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{infix}\PYG{+w}{ }\PYG{k}{type}\PYG{+w}{ }\PYG{n+nc}{or}\PYG{p}{[}\PYG{n+nc}{X}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nc}{Y}\PYG{p}{]}
+\PYG{k+kd}{val}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{String}\PYG{+w}{ }\PYG{n}{or}\PYG{+w}{ }\PYG{n+nc}{Int}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{...}
+\end{Verbatim}

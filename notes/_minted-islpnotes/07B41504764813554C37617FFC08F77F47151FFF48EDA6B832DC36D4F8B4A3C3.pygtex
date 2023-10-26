@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{case}\PYG{+w}{ }\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{Foo}\PYG{p}{(}\PYG{n}{bar}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{T}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{Foo}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)}
+\end{Verbatim}

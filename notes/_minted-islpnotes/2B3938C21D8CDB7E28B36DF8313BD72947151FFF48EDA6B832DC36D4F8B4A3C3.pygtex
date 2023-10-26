@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{lazy}\PYG{+w}{ }\PYG{k+kd}{val}\PYG{+w}{ }\PYG{n}{googleTweets}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{TweetSet}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{allTweets}\PYG{p}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{tweet}\PYG{+w}{ }\PYG{o}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n}{google}\PYG{p}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{str}\PYG{+w}{ }\PYG{o}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n}{tweet}\PYG{p}{.}\PYG{n}{text}\PYG{p}{.}\PYG{n}{contains}\PYG{p}{(}\PYG{n}{str}\PYG{p}{)))}
+\end{Verbatim}

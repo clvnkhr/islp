@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{if}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{  }\PYG{n}{elem}
+\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{elem}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{elem}
+\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{elem}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{elem}
+\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{elem}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{elem}
+\PYG{k}{else}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{elem}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{elem}
+\end{Verbatim}

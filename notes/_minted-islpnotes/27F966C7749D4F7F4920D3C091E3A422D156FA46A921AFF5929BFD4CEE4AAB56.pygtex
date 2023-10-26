@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{([}
+    \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}features\PYGZsq{}}\PYG{p}{,} \PYG{n}{DFFeatureUnion}\PYG{p}{([}
+        \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}categoricals\PYGZsq{}}\PYG{p}{,} \PYG{n}{Pipeline}\PYG{p}{([}
+            \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}extract\PYGZsq{}}\PYG{p}{,} \PYG{n}{ColumnExtractor}\PYG{p}{(}\PYG{n}{CAT\PYGZus{}FEATS}\PYG{p}{)),}
+            \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}dummy\PYGZsq{}}\PYG{p}{,} \PYG{n}{DummyTransformer}\PYG{p}{())}
+        \PYG{p}{])),}
+        \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}numerics\PYGZsq{}}\PYG{p}{,} \PYG{n}{Pipeline}\PYG{p}{([}
+            \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}extract\PYGZsq{}}\PYG{p}{,} \PYG{n}{ColumnExtractor}\PYG{p}{(}\PYG{n}{NUM\PYGZus{}FEATS}\PYG{p}{)),}
+            \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}zero\PYGZus{}fill\PYGZsq{}}\PYG{p}{,} \PYG{n}{ZeroFillTransformer}\PYG{p}{()),}
+            \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}log\PYGZsq{}}\PYG{p}{,} \PYG{n}{Log1pTransformer}\PYG{p}{())}
+        \PYG{p}{]))}
+    \PYG{p}{])),}
+    \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}scale\PYGZsq{}}\PYG{p}{,} \PYG{n}{DFStandardScaler}\PYG{p}{())}
+\PYG{p}{])}
+\end{Verbatim}

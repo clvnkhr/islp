@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{unionB}\PYG{p}{(}\PYG{n}{that}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{TweetSet}\PYG{p}{):}\PYG{+w}{ }\PYG{n+nc}{TweetSet}\PYG{+w}{ }\PYG{o}{=}
+\PYG{+w}{  }\PYG{n}{left}\PYG{p}{.}\PYG{n}{union}\PYG{p}{(}\PYG{n}{right}\PYG{p}{.}\PYG{n}{union}\PYG{p}{(}\PYG{n}{that}\PYG{p}{).}\PYG{n}{incl}\PYG{p}{(}\PYG{n}{elem}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{joblib}
+\PYG{c+c1}{\PYGZsh{} saving; the filetype extension is only for the user/reader}
+\PYG{n}{joblib}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n}{pipe}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}filename.joblib\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} loading}
+\PYG{n}{loaded} \PYG{o}{=} \PYG{n}{joblib}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}filename.joblib\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}

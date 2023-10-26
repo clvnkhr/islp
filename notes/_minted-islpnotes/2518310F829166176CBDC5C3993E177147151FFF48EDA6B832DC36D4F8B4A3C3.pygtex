@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{(}\PYG{n}{characters}\PYG{+w}{ }\PYG{n}{not}\PYG{+w}{ }\PYG{n}{shown}\PYG{+w}{ }\PYG{n}{below}\PYG{p}{)}
+\PYG{o}{*}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}
+\PYG{o}{+}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}
+\PYG{p}{:}
+\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}
+\PYG{o}{=}\PYG{+w}{ }\PYG{o}{!}
+\PYG{n}{\PYGZam{}}
+\PYG{n}{\PYGZca{}}
+\PYG{o}{|}
+\PYG{p}{(}\PYG{n}{all}\PYG{+w}{ }\PYG{n}{letters}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{\PYGZdl{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{\PYGZus{}}\PYG{p}{)}
+\end{Verbatim}

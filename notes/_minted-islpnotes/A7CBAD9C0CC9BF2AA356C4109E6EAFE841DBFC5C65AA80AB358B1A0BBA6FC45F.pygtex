@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{\PYGZbs{}usepackage}\PYG{n+na}{[framemethod=tikz,linenos]}\PYG{n+nb}{\PYGZob{}}mdframed\PYG{n+nb}{\PYGZcb{}}
+\PYG{k}{\PYGZbs{}mdfdefinestyle}\PYG{n+nb}{\PYGZob{}}tao\PYG{n+nb}{\PYGZcb{}\PYGZob{}}\PYG{c}{\PYGZpc{}}
+    linecolor=white,\PYG{c}{\PYGZpc{}}
+    roundcorner=5pt,\PYG{c}{\PYGZpc{}}
+    innertopmargin=0,\PYG{c}{\PYGZpc{}}
+    backgroundcolor=yellow!7!white\PYG{n+nb}{\PYGZcb{}}
+...
+\PYG{k}{\PYGZbs{}newmdtheoremenv}\PYG{n+na}{[style=tao]}\PYG{n+nb}{\PYGZob{}}question\PYG{n+nb}{\PYGZcb{}}[theorem]\PYG{n+nb}{\PYGZob{}}Question\PYG{n+nb}{\PYGZcb{}}
+\end{Verbatim}

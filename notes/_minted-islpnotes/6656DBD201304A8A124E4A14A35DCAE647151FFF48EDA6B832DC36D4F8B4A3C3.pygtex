@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{mostRetweeted}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{Tweet}\PYG{+w}{ }\PYG{o}{=}
+\PYG{k+kd}{val}\PYG{+w}{ }\PYG{n}{leftMostRetweeted}\PYG{+w}{ }\PYG{o}{=}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n+nc}{Tweet}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{.}\PYG{n}{mostRetweeted}
+\PYG{k+kd}{val}\PYG{+w}{ }\PYG{n}{rightMostRetweeted}\PYG{+w}{ }\PYG{o}{=}
+\PYG{+w}{  }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{isEmpty}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n+nc}{Tweet}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{.}\PYG{n}{mostRetweeted}
+
+\PYG{k+kd}{val}\PYG{+w}{ }\PYG{n}{max\PYGZus{}retweets}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{p}{(}\PYG{n}{leftMostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightMostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{elem}\PYG{p}{.}\PYG{n}{retweets}\PYG{p}{).}\PYG{n}{max}
+
+\PYG{k}{if}\PYG{+w}{ }\PYG{n}{leftMostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{max\PYGZus{}retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{leftMostRetweeted}
+\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{rightMostRetweeted}\PYG{p}{.}\PYG{n}{retweets}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{max\PYGZus{}retweets}\PYG{+w}{ }\PYG{k}{then}\PYG{+w}{ }\PYG{n}{rightMostRetweeted}
+\PYG{k}{else}\PYG{+w}{ }\PYG{n}{elem}
+\end{Verbatim}

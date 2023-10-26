@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{object}\PYG{+w}{ }\PYG{n+nc}{Thing1}\PYG{p}{:}
+\PYG{+w}{  }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{stuff}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{Int}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}
+
+\PYG{k}{object}\PYG{+w}{ }\PYG{n+nc}{Thing2}\PYG{p}{:}
+\PYG{+w}{  }\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{stuff}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{Int}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{2}
+
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nc}{Thing2}\PYG{p}{.}\PYG{n}{\PYGZus{}}
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nc}{Thing1}\PYG{p}{.}\PYG{n}{\PYGZus{}}
+
+\PYG{n}{stuff}
+\PYG{c+c1}{// error:}
+\PYG{c+c1}{// Reference to stuff is ambiguous,}
+\PYG{c+c1}{// it is both imported by import MdocApp.this.Thing2.\PYGZus{}}
+\PYG{c+c1}{// and imported subsequently by import MdocApp.this.Thing1.\PYGZus{}}
+\end{Verbatim}

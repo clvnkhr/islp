@@ -1,0 +1,286 @@
+% !TEX program = xelatex
+\documentclass[11pt]{article}
+\usepackage{lineno}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{xspace}
+\usepackage[margin=3cm]{geometry}
+\usepackage[]{todonotes}
+\usepackage{mathtools}
+%\mathtoolsset{showonlyrefs}
+\usepackage{minted}
+% requires pygments, e.g. pip install pygments. 
+% If you do not install pygments globally on system python, 
+% then you might need to add pygmentize to $PATH, 
+% e.g. in .zprofile (because this is not an interactive shell), add
+%
+%	export PATH=$PATH:$(which pygmentize)
+%
+\setminted[python]{breaklines=true,linenos}
+\usemintedstyle{staroffice}
+\usepackage{microtype}
+
+\usepackage[hyphens]{url}
+\usepackage[colorlinks = true,
+    citecolor = blue,
+    linkcolor = blue]{hyperref}
+\usepackage{fontspec}
+\setmonofont[Scale=0.9]{Hasklig}
+
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\let\del\partial \newcommand{\dv}[2]{\frac{\dd#1}{\dd#2}} \newcommand{\pdv}[2]{\frac{\partial#1}{\partial#2}} \newcommand{\bangle}[1]{\left\langle#1\right\rangle}
+\newcommand{\oldRe}[0]{\Re} \newcommand{\oldIm}[0]{\Im} \let\Re\relax
+\let\Im\relax \DeclareMathOperator{\Re}{Re} \DeclareMathOperator{\Im}{Im}
+
+%%%%% widecheck implementation
+%%%%%
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\widecheck[1]{%
+    \savestack{\tmpbox}{\stretchto{%
+            \scaleto{%
+                \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+                {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+            }{\textheight}% 
+        }{0.5ex}}%
+    \stackon[1pt]{#1}{\scalebox{-1}{\tmpbox}}%
+}
+
+%%%%%% BB1
+%%%%%%https://tex.stackexchange.com/questions/488/blackboard-bold-characters
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\newcommand{\ind}[0]{\mathbbold{1}}
+
+\newcommand{\coloneq}{\mathrel{\mathop:}=}
+\newcommand{\eqcolon}{=\mathrel{\mathop:}}
+
+%just a reminder that \lesssim has an opposite \gtrsim
+
+% THEOREMS -------------------------------------------------------
+%\newtheorem{thm}{Theorem}
+%\newtheorem{cor}[thm]{Corollary}
+%\newtheorem{lem}[thm]{Lemma}
+%\newtheorem{prop}[thm]{Proposition}
+%\theoremstyle{definition}
+%\newtheorem{question}[thm]{Question}
+%\newtheorem{defn}[thm]{Definition}
+%\newtheorem{example}[thm]{Example}
+%\theoremstyle{remark}
+%\newtheorem{rem}[thm]{Remark}
+%\numberwithin{equation}{section}
+\usepackage[framemethod=tikz]{mdframed}
+\mdfdefinestyle{tao}{linecolor=white,roundcorner=5pt,innertopmargin=0,backgroundcolor=yellow!7!white}
+\newmdtheoremenv[style=tao]{theorem}{Theorem}
+\newmdtheoremenv[style=tao]{corollary}[theorem]{Corollary}
+\newmdtheoremenv[style=tao]{lemma}[theorem]{Lemma}
+\newmdtheoremenv[style=tao]{proposition}[theorem]{Proposition}
+\newmdtheoremenv[style=tao]{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newmdtheoremenv[style=tao]{definition}[theorem]{Definition}
+\newmdtheoremenv[style=tao]{example}[theorem]{Example}
+\newmdtheoremenv[style=tao]{exercise}[theorem]{Exercise}
+% \theoremstyle{remark}
+\newmdtheoremenv[style=tao]{remark}[theorem]{Remark}
+\newmdtheoremenv[style=tao]{note}[theorem]{Note}
+\newmdtheoremenv[style=tao]{question}[theorem]{Question}
+
+% NAMES ----------------------------------------------------------
+\newcommand{\Holder}{H\"older\xspace}
+
+% extras
+
+\DeclareMathOperator{\dil}{dil}
+\DeclareMathOperator{\shr}{shr}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\trans}{tsp}
+\DeclareMathOperator{\supp}{supp}
+
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{\mathbb E}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Bias}{\operatorname{Bias}}
+
+
+\begin{document}
+\title{Notes on and around ISLP}
+\author{Calvin Khor}
+
+\date{Last compiled: \today}
+\maketitle
+\section{Resources}
+\begin{enumerate}
+	\item The website for the book:
+	\item Solutions to ISLR:
+	\item Videos accompanying ISLR:
+    \item My errata: \url{https://docs.oracle.com/javase/8/docs/api/java/lang/}
+    \item These notes: \url{https://dotty.epfl.ch/3.0.0/api}
+\end{enumerate}
+
+\section{Statistical Learning}
+\subsection{Definitions and Notation}
+
+ $X_1,\dots,X_p$ denotes training data, $X_0$ is test (out-sample) data. When its capital letters its either a random variable or an abstract model? The $p$ denotes the number of predictors (i.e. independent variables/features/variables). The model is abstractly
+
+\[ Y=f(X)+\epsilon \tag{2.1} \]
+$Y$ is the response/dependent variable. $\epsilon$ is noise inherent to the model: WLOG $ \E\epsilon=0$,  $\Var\epsilon = 1$, and independent from the predictors (i.e. we cannot predict the error)
+
+We denote the number of observations by $n$, so that the observations of the predictors are $x_j=(x_{1j}, x_{2j},\dots x_{nj})$, for $j=1,\dots,p$.
+
+*Parametric and non-parametric models*:
+
+*Prediction Accuracy*:
+
+*Model Interpretability*:
+
+*Test MSE*:
+
+Variance: "the amount by which $\hat f$ would change if we estimated it using a different training data set." - i.e. variance by treating the training data as random variables
+
+Bias: the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model. 
+
+\[ E|y_0 - \hat f(x_0)|^2 = \Var\hat f(x_0) + (\Bias \hat f(x_0))^2 + \Var\epsilon \tag{2.7} \]
+
+---
+
+$$\color{orange}\fbox{Important quote from book:}$$
+
+\begin{quote} Here the notation $\E|y_0 - \hat f(x_0)|^2$ defines the expected test MSE at $x_0$, expected test MSE and refers to the average test MSE that we would obtain if we repeatedly estimated f using a large number of training sets, and tested each at $x_0$. The overall expected test MSE can be computed by averaging $\E|y_0 - \hat f(x_0)|^2$ over all possible values of $x_0$ in the test set. 	
+\end{quote}
+
+Derivation of (2.7): 
+\begin{align*}
+\operatorname{LHS}(2.7)
+&=  \E|f(x_0) - \hat f(x_0) + \epsilon|^2 \\
+&= \E|f(x_0) - \E \hat f(x_0) + (\E \hat f(x_0) - \hat f(x_0)) + \epsilon|^2 \\
+&= \E|f(x_0) - \E\hat f(x_0)|^2 + \E|\epsilon|^2 + \E|\hat f(x_0) - \E\hat f(x_0)|^2 + 2\E\epsilon (f(x_0) - \hat f(x_0) ) \\
+&= | f(x_0) - \E\hat f(x_0)|^2 + \E|\epsilon|^2 + \E|\hat f(x_0) - \E\hat f(x_0)|^2 + 2\E\epsilon (f(x_0) - \hat f(x_0) ) \\
+&=: \Bias^2 + \Var\epsilon + \Var\hat f(x_0) + 0 \text{ (since }\epsilon\text{ is independent)} = \operatorname{RHS}(2.7).
+\end{align*}
+
+\subsection{Bias-Variance Trade-off}
+
+
+\section{Regression Models}
+\section{}
+\section{}
+\section{}
+\section{}
+\section{Tree-based Methods}
+\section{}
+\section{}
+\section{Python}
+\subsection{Classes}
+https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python
+
+\subsection{Conventions and patterns}
+\begin{itemize}
+\item Subscript at the end of a variable name means we are looking at a coefficient or other computed quantity of an estimator.	
+\item Saving a model using Joblib:
+\begin{minted}{python}
+import joblib
+# saving; the filetype extension is only for the user/reader
+joblib.dump(pipe, 'filename.joblib') 
+
+# loading
+loaded = joblib.load('filename.joblib')
+\end{minted}
+Make sure you use the same environment (module version etc.) or the model may change.
+\item Pipelines are DataFrame-friendly\footnote{This info is from \url{https://www.youtube.com/watch?v=BFaadIqWlAg&list=PLzERW_Obpmv_t55kNFRet-E0h1nKeswWF&index=26}, with Github repo at \url{https://github.com/jem1031/pandas-pipelines-custom-transformers}.}, if the component transformers are as well. If they are not, we can wrap the transformer so that it returns a DataFrame. For instance, \mintinline{python}!StandardScaler! which normally returns a \mintinline{python}!np.array!:
+\begin{minted}{python}
+class DFStandardScaler(TransformerMixin):
+    def __init__(self):
+        self.ss = None
+    def fit(self, X, y=None):
+        self.ss = StandardScaler().fit(X)
+        return self    
+    def transform(self, X):
+        Xss = self.ss.transform (X)
+        Xscaled = pd. DataFrame(Xss, index=X.index, columns=X.columns)
+        return Xscaled
+\end{minted}
+\item Pipelines compose, e.g.:
+\begin{minted}{python}
+pipeline = Pipeline([
+    ('features', DFFeatureUnion([
+        ('categoricals', Pipeline([
+            ('extract', ColumnExtractor(CAT_FEATS)),
+            ('dummy', DummyTransformer())
+        ])),
+        ('numerics', Pipeline([
+            ('extract', ColumnExtractor(NUM_FEATS)),
+            ('zero_fill', ZeroFillTransformer()),
+            ('log', Log1pTransformer())
+        ]))
+    ])),
+    ('scale', DFStandardScaler())
+])    
+\end{minted}
+
+\end{itemize}
+
+
+\subsection{Custom Scikit-learn classes} From \url{https://www.youtube.com/watch?v=WGirN6zBJ4s&list=PLzERW_Obpmv_t55kNFRet-E0h1nKeswWF&index=1}. There are \mintinline{python}!Estimator!, \mintinline{python}!Predictor!, \mintinline{python}!Transformer!, and \mintinline{python}!Model! classes. An \mintinline{python}!Estimator! must implement 
+\begin{itemize}
+	\item \mintinline{python}!.fit(X,y)!, fitting the estimator to \mintinline{python}!X! and \mintinline{python}!y!
+	\item \mintinline{python}!.get_params()! return the parameters of the estimator
+	\item \mintinline{python}!.set_params(**params)! change the parameters of the estimator (e.g. for copying)
+\end{itemize}
+Sklearn \mintinline{python}!Predictor! needs 
+\begin{itemize}
+	\item \mintinline{python}!.predict(X)!
+\end{itemize}
+Sklearn \mintinline{python}!Transformer! needs 
+\begin{itemize}
+	\item \mintinline{python}!.transform(X, y=None)!
+\end{itemize}
+Sklearn \mintinline{python}!Model! needs 
+\begin{itemize}
+	\item \mintinline{python}!.score(X,y)!
+\end{itemize}
+\subsubsection{Inheritance and Mixins}
+\begin{itemize}
+	\item You can implement \mintinline{python}!.get_params()! and \mintinline{python}!.set_params()! by inheriting from \mintinline{python}!BaseEstimator!
+	\item There is also \mintinline{python}!base.TransformerMixin!, \mintinline{python}!base.RegressorMixin!, \mintinline{python}!base.ClassifierMixin!,  \mintinline{python}!base.ClusterMixin!,  \mintinline{python}!feature_selection.SelectorMixin!,\dots
+\end{itemize}
+\subsubsection{Example 1: simple scaler}
+\begin{minted}{python}
+import numpy as np
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class Standardizer(BaseEstimator, TransformerMixin):
+
+def __init__(self,mean_after_transform = 0):
+    self.mean after transform = mean after transform
+    
+def fit(self, X, y=None):
+    self.mean_ = np.mean(X, axis=0) # columwise mean
+    self.std_ = np.std(X, axis=0) # columwise std
+    return self
+    
+def transform(self, X):
+    return (X-self.mean_) / self.std_ + self.mean_after_transform
+\end{minted}
+\subsubsection{Example 2: Regression}
+Basic regressor that just predicts using the mean or median, using  \mintinline{python}!RegressorMixin! (A regressor is a type of \mintinline{python}{Model}):
+\begin{minted}{python}
+import numpy as np
+class MyDummyRegression(BaseEstimator):
+
+def __init__(self, use_median=False):
+    self.use_median = use_median
+    
+def fit(self, X, y):
+    if self.use median:
+        self.value_ = np.median(y)
+    else:
+        self.value_ = np.mean(y)
+    return self
+    
+def predict(self, X):
+    out = np.empty (len(X))
+    out.fill(self.value_)
+    return out
+\end{minted}
+The mixin gives us a \mintinline{python}!.score! for free.
+\end{document}

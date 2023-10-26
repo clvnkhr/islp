@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{java}\PYG{p}{.}\PYG{n}{lang}\PYG{p}{.}\PYG{n+nc}{Character}\PYG{p}{.}\PYG{n}{isIdentifierPart}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}
+\end{Verbatim}

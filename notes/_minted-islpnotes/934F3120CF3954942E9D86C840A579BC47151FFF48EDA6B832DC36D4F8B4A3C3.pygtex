@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{import}\PYG{+w}{ }\PYG{n+nn}{scala}\PYG{p}{.}\PYG{n+nn}{annotation}\PYG{p}{.}\PYG{n}{tailrec}
+
+\PYG{n+nd}{@tailrec}
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{quickEncode1}\PYG{p}{(}\PYG{n}{table}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{CodeTable}\PYG{p}{)(}\PYG{n}{text}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{p}{[}\PYG{n+nc}{Char}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{p}{[}\PYG{n+nc}{Bit}\PYG{p}{]):}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{p}{[}\PYG{n+nc}{Bit}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}
+\PYG{+w}{  }\PYG{n}{text}\PYG{+w}{ }\PYG{k}{match}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n+nc}{Nil}\PYG{+w}{ }\PYG{o}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n}{acc}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{::}\PYG{+w}{ }\PYG{n}{xs}\PYG{+w}{ }\PYG{o}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n}{quickEncode1}\PYG{p}{(}\PYG{n}{table}\PYG{p}{)(}\PYG{n}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{acc}\PYG{+w}{ }\PYG{o}{:::}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{codeBits}\PYG{p}{(}\PYG{n}{table}\PYG{p}{)(}\PYG{n}{x}\PYG{p}{)))}
+\end{Verbatim}

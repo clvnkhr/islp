@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{scala}\PYG{p}{.}\PYG{n}{collection}\PYG{p}{.}\PYG{n+nc}{IterableOnceOps}\PYG{p}{.}\PYG{n}{max}
+\end{Verbatim}
