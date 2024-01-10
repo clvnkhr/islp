@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{key}\PYG{o}{=}\PYG{n}{col}\PYG{p}{)}
+\end{Verbatim}

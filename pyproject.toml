@@ -26,6 +26,7 @@ dependencies = [
     "RISE",
     "notebook>=7.0.3",
     "html5lib>=1.1",
+    "scikit-plot>=0.3.7",
 ]
 requires-python = ">=3.11,<3.12"
 

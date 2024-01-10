@@ -1,0 +1,44 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{ModelSelector}\PYG{p}{(}\PYG{n}{BaseEstimator}\PYG{p}{,} \PYG{n}{RegressorMixin}\PYG{p}{):}
+\PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}
+    \PYG{n+nb+bp}{self}\PYG{p}{,}
+    \PYG{n}{model\PYGZus{}0}\PYG{p}{:} \PYG{n}{Estimator}\PYG{p}{,}
+    \PYG{n}{model\PYGZus{}1}\PYG{p}{:} \PYG{n}{Estimator}\PYG{p}{,}
+    \PYG{n}{cat\PYGZus{}var}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,}
+    \PYG{n}{drop\PYGZus{}cat\PYGZus{}var}\PYG{p}{:} \PYG{n+nb}{bool} \PYG{o}{=} \PYG{k+kc}{False}\PYG{p}{,}
+\PYG{p}{):}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}0} \PYG{o}{=} \PYG{n}{model\PYGZus{}0}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}1} \PYG{o}{=} \PYG{n}{model\PYGZus{}1}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var} \PYG{o}{=} \PYG{n}{cat\PYGZus{}var}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{drop\PYGZus{}cat\PYGZus{}var} \PYG{o}{=} \PYG{n}{drop\PYGZus{}cat\PYGZus{}var}
+
+\PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{:} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} split the data based on the value of the categorical variable}
+    \PYG{n}{X\PYGZus{}0} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{y\PYGZus{}0} \PYG{o}{=} \PYG{n}{y}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{X\PYGZus{}1} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{n}{y\PYGZus{}1} \PYG{o}{=} \PYG{n}{y}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{drop\PYGZus{}cat\PYGZus{}var}\PYG{p}{:}
+        \PYG{n}{X\PYGZus{}0} \PYG{o}{=} \PYG{n}{X\PYGZus{}0}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{])}
+        \PYG{n}{X\PYGZus{}1} \PYG{o}{=} \PYG{n}{X\PYGZus{}1}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{])}
+    \PYG{c+c1}{\PYGZsh{} fit the models on the corresponding subsets of data}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}0}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}0}\PYG{p}{,} \PYG{n}{y\PYGZus{}0}\PYG{p}{)}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}1}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb+bp}{self}
+
+\PYG{k}{def} \PYG{n+nf}{predict}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} split the data based on the value of the categorical variable}
+    \PYG{n}{X\PYGZus{}0} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{X\PYGZus{}1} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{drop\PYGZus{}cat\PYGZus{}var}\PYG{p}{:}
+        \PYG{n}{X\PYGZus{}0} \PYG{o}{=} \PYG{n}{X\PYGZus{}0}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{])}
+        \PYG{n}{X\PYGZus{}1} \PYG{o}{=} \PYG{n}{X\PYGZus{}1}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{])}
+    \PYG{c+c1}{\PYGZsh{} predict using the models on the corresponding subsets of data}
+    \PYG{n}{y\PYGZus{}pred\PYGZus{}0} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}0}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X\PYGZus{}0}\PYG{p}{)}
+    \PYG{n}{y\PYGZus{}pred\PYGZus{}1} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model\PYGZus{}1}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X\PYGZus{}1}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} combine the predictions into a single array}
+    \PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{X}\PYG{p}{))}
+    \PYG{n}{y\PYGZus{}pred}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{y\PYGZus{}pred\PYGZus{}0}
+    \PYG{n}{y\PYGZus{}pred}\PYG{p}{[}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cat\PYGZus{}var}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{y\PYGZus{}pred\PYGZus{}1}
+    \PYG{k}{return} \PYG{n}{y\PYGZus{}pred}
+\end{Verbatim}

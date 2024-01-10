@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{options}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{max\PYGZus{}columns} \PYG{o}{=} \PYG{l+m+mi}{1000}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{options}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{max\PYGZus{}rows} \PYG{o}{=} \PYG{l+m+mi}{2000}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{options}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{width} \PYG{o}{=} \PYG{l+m+mi}{1000}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{options}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{max\PYGZus{}colwidth} \PYG{o}{=} \PYG{l+m+mi}{400}
+\end{Verbatim}

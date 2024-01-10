@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{LinearRegression}
+    \PYG{n}{ols} \PYG{o}{=} \PYG{n}{LinearRegression}\PYG{p}{()}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,}\PYG{n}{y}\PYG{p}{)}
+    \PYG{n}{y\PYGZus{}test} \PYG{o}{=} \PYG{n}{ols}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{)}
+\end{Verbatim}

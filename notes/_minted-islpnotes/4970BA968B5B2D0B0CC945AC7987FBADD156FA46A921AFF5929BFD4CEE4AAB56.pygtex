@@ -1,0 +1,55 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.stats} \PYG{k+kn}{import} \PYG{n}{spearmanr}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.metrics} \PYG{k+kn}{import} \PYG{n}{make\PYGZus{}scorer}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{QuantileTransformer}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{seaborn} \PYG{k}{as} \PYG{n+nn}{sns}
+
+
+\PYG{k}{def} \PYG{n+nf}{spearman\PYGZus{}metric}\PYG{p}{(}\PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{n}{y}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}y\PYGZus{}pred is the model prediction; y is the training data target\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{spearmanr}\PYG{p}{(}\PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}\PYG{o}{.}\PYG{n}{correlation}
+\PYG{n}{spearman\PYGZus{}scorer} \PYG{o}{=} \PYG{n}{make\PYGZus{}scorer}\PYG{p}{(}\PYG{n}{spearman\PYGZus{}metric}\PYG{p}{)}
+
+
+\PYG{k}{def} \PYG{n+nf}{grade}\PYG{p}{(}\PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{k+kc}{None}\PYG{p}{:}
+    \PYG{n}{Xy} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[[}\PYG{l+s+s2}{\PYGZdq{}COUNTRY\PYGZdq{}}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{copy}\PYG{p}{()}
+    \PYG{n}{Xy}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{y}
+    \PYG{n}{Xy}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PREDICTED\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{y\PYGZus{}pred}
+    \PYG{n}{Xy}\PYG{p}{[[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}PREDICTED\PYGZdq{}}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{QuantileTransformer}\PYG{p}{()}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}
+        \PYG{n}{Xy}\PYG{p}{[[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}PREDICTED\PYGZdq{}}\PYG{p}{]]}
+    \PYG{p}{)}
+
+    \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{ax} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{()}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{Xy}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{],} \PYG{n}{Xy}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{],} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}y=x (perfect model)\PYGZdq{}}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{)}
+    \PYG{n}{sns}\PYG{o}{.}\PYG{n}{scatterplot}\PYG{p}{(}\PYG{n}{Xy}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PREDICTED\PYGZdq{}}\PYG{p}{,} \PYG{n}{x}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{,} \PYG{n}{hue}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}COUNTRY\PYGZdq{}}\PYG{p}{,} \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{0.8}\PYG{p}{,} \PYG{n}{s}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Actual Values\PYGZdq{}} \PYG{o}{+} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (quantile)\PYGZdq{}} \PYG{k}{if} \PYG{n}{quantile} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{))}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Predicted Values\PYGZdq{}} \PYG{o}{+} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} (quantile)\PYGZdq{}} \PYG{k}{if} \PYG{n}{quantile} \PYG{k}{else} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{))}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}
+        \PYG{l+s+s2}{\PYGZdq{}Output vs Training Data}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Spearman correlation for the train set: }\PYG{l+s+si}{\PYGZob{}:.1f\PYGZcb{}}\PYG{l+s+s2}{\PYGZpc{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}
+            \PYG{l+m+mi}{100} \PYG{o}{*} \PYG{n}{spearman\PYGZus{}metric}\PYG{p}{(}\PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+        \PYG{p}{)}
+    \PYG{p}{)}
+    \PYG{n}{ax}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{title}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+
+\PYG{k}{def} \PYG{n+nf}{perform\PYGZus{}cv}\PYG{p}{(}
+    \PYG{n}{estimator}\PYG{p}{,} \PYG{n}{data}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{scorer}\PYG{o}{=}\PYG{n}{spearman\PYGZus{}scorer}\PYG{p}{,} \PYG{n}{show}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{n}{y}\PYG{p}{,} \PYG{n}{n\PYGZus{}jobs}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{verbose}\PYG{o}{=}\PYG{l+m+mi}{0}
+\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}displays cv test scores and returns the result from the cv.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{cv\PYGZus{}results} \PYG{o}{=} \PYG{n}{cross\PYGZus{}validate}\PYG{p}{(}
+        \PYG{n}{estimator}\PYG{p}{,} \PYG{n}{data}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{=}\PYG{n}{cv}\PYG{p}{,} \PYG{n}{scoring}\PYG{o}{=}\PYG{n}{scorer}\PYG{p}{,} \PYG{n}{n\PYGZus{}jobs}\PYG{o}{=}\PYG{n}{n\PYGZus{}jobs}\PYG{p}{,} \PYG{n}{verbose}\PYG{o}{=}\PYG{n}{verbose}
+    \PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{show}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Print the mean and standard deviation of the test scores}
+        \PYG{n+nb}{print}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}Spearman correlation for the cross validation: }\PYG{l+s+si}{\PYGZob{}:.1f\PYGZcb{}}\PYG{l+s+s2}{\PYGZpc{} ± }\PYG{l+s+si}{\PYGZob{}:.1f\PYGZcb{}}\PYG{l+s+s2}{\PYGZpc{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}
+                \PYG{l+m+mi}{100} \PYG{o}{*} \PYG{n}{cv\PYGZus{}results}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(),}
+                \PYG{l+m+mi}{100} \PYG{o}{*} \PYG{n}{cv\PYGZus{}results}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{std}\PYG{p}{(),}
+            \PYG{p}{)}
+        \PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Spearman correlation for each fold: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{cv\PYGZus{}results}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}test\PYGZus{}score\PYGZsq{}}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{cv\PYGZus{}results}\PYG{p}{)}
+\end{Verbatim}

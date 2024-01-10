@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{Lasso}
+\PYG{n}{pipe} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}
+    \PYG{p}{[}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}drop\PYGZdq{}}\PYG{p}{,} \PYG{n}{FunctionTransformer}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{df}\PYG{p}{:} \PYG{n}{df}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}COUNTRY\PYGZdq{}}\PYG{p}{],} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{))),}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}scale\PYGZdq{}}\PYG{p}{,} \PYG{n}{RobustScaler}\PYG{p}{()),}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}lasso\PYGZdq{}}\PYG{p}{,} \PYG{n}{Lasso}\PYG{p}{()),}
+    \PYG{p}{]}
+\PYG{p}{)}
+\end{Verbatim}

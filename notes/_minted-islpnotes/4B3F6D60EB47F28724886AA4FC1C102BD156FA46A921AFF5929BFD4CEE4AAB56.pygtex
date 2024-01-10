@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{icecream} \PYG{k+kn}{import} \PYG{n}{ic}
+\PYG{k+kn}{import} \PYG{n+nn}{functools}
+\PYG{k+kn}{from} \PYG{n+nn}{operator} \PYG{k+kn}{import} \PYG{n}{mul}
+\PYG{k}{def} \PYG{n+nf}{display\PYGZus{}grid\PYGZus{}params}\PYG{p}{(}\PYG{n}{params}\PYG{p}{,} \PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+    \PYG{n}{params\PYGZus{}size} \PYG{o}{=} \PYG{n}{functools}\PYG{o}{.}\PYG{n}{reduce}\PYG{p}{(}\PYG{n}{mul}\PYG{p}{,} \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{params}\PYG{p}{[}\PYG{n}{k}\PYG{p}{])} \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n}{params}\PYG{p}{))}
+    \PYG{n}{note} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}The params grid has size }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{params\PYGZus{}size}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{. \PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit}\PYG{p}{:}
+        \PYG{n+nb}{min}\PYG{p}{,} \PYG{n}{sec} \PYG{o}{=} \PYG{n+nb}{divmod}\PYG{p}{(}\PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit} \PYG{o}{*} \PYG{n}{params\PYGZus{}size}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{)}
+        \PYG{n}{hr}\PYG{p}{,} \PYG{n+nb}{min} \PYG{o}{=} \PYG{n+nb}{divmod}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{)}
+        \PYG{n}{note} \PYG{o}{+=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Estimated time to completion: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{hr}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{h }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{min}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{m }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{sec}\PYG{l+s+si}{:}\PYG{l+s+s2}{.1f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{s\PYGZdq{}}
+    \PYG{n}{ic}\PYG{p}{(}\PYG{n}{note}\PYG{p}{)}
+    \PYG{n}{ic}\PYG{p}{(}\PYG{n}{params}\PYG{p}{)}
+
+
+\PYG{k}{def} \PYG{n+nf}{report}\PYG{p}{(}\PYG{n}{grid}\PYG{p}{,} \PYG{n}{n\PYGZus{}top}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Usage: fit outside the report with grid.fit(X,y). Then pass the cv\PYGZus{}results\PYGZus{} to report.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{cv\PYGZus{}results\PYGZus{}} \PYG{o}{=} \PYG{n}{grid}\PYG{o}{.}\PYG{n}{cv\PYGZus{}results\PYGZus{}}
+    \PYG{n}{grid\PYGZus{}df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{cv\PYGZus{}results\PYGZus{}}\PYG{p}{)[}
+        \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}params\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}mean\PYGZus{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}std\PYGZus{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rank\PYGZus{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{]}
+    \PYG{p}{]}\PYG{o}{.}\PYG{n}{sort\PYGZus{}values}\PYG{p}{(}\PYG{n}{by}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}rank\PYGZus{}test\PYGZus{}score\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n}{n\PYGZus{}top} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{ic}\PYG{p}{(}\PYG{n}{grid}\PYG{o}{.}\PYG{n}{best\PYGZus{}params\PYGZus{}}\PYG{p}{,} \PYG{n}{grid}\PYG{o}{.}\PYG{n}{best\PYGZus{}score\PYGZus{}}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{n\PYGZus{}top} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{display}\PYG{p}{(}\PYG{n}{grid\PYGZus{}df}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{n}{n\PYGZus{}top}\PYG{p}{))}
+    \PYG{k}{elif} \PYG{n}{n\PYGZus{}top} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{display}\PYG{p}{(}\PYG{n}{grid\PYGZus{}df}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{grid\PYGZus{}df}
+\end{Verbatim}

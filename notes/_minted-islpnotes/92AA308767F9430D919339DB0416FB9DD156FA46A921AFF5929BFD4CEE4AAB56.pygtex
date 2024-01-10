@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{X} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}X\PYGZus{}train.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{y\PYGZus{}raw} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Y\PYGZus{}train.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{X\PYGZus{}test} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}X\PYGZus{}test.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{y} \PYG{o}{=} \PYG{n}{y\PYGZus{}raw}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TARGET\PYGZdq{}}\PYG{p}{]}
+\end{Verbatim}

@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pipe} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}
+    \PYG{p}{[}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}drop\PYGZdq{}}\PYG{p}{,} \PYG{n}{FunctionTransformer}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{df}\PYG{p}{:} \PYG{n}{df}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}COUNTRY\PYGZdq{}}\PYG{p}{],} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{))),}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}scale\PYGZdq{}}\PYG{p}{,} \PYG{n}{RobustScaler}\PYG{p}{()),}
+        \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}ols\PYGZdq{}}\PYG{p}{,} \PYG{n}{LinearRegression}\PYG{p}{()),}
+    \PYG{p}{]}
+\PYG{p}{)}
+\PYG{n}{pipe}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{pipe}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}
+\PYG{n}{grade}\PYG{p}{(}\PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n}{perform\PYGZus{}cv}\PYG{p}{(}\PYG{n}{pipe}\PYG{p}{,} \PYG{n}{X}\PYG{p}{)}
+\end{Verbatim}

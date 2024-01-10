@@ -1,0 +1,547 @@
+% !TEX program = xelatex
+\documentclass[11pt]{article}
+\usepackage{lineno}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{xspace}
+\usepackage[margin=3cm]{geometry}
+\usepackage[]{todonotes}
+\usepackage{mathtools}
+%\mathtoolsset{showonlyrefs}
+\usepackage{minted}
+% requires pygments, e.g. pip install pygments. 
+% If you do not install pygments globally on system python, 
+% then you might need to add pygmentize to $PATH, 
+% e.g. in .zprofile (because this is not an interactive shell), add
+%
+%	export PATH=$PATH:$(which pygmentize)
+%
+\setminted[python]{breaklines=true,linenos}
+\usemintedstyle{staroffice}
+\usepackage{microtype}
+
+\usepackage[hyphens]{url}
+\usepackage[colorlinks = true,
+    citecolor = blue,
+    linkcolor = blue]{hyperref}
+\usepackage{fontspec}
+\setmonofont[Scale=0.9]{Hasklig}
+
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\let\del\partial \newcommand{\dv}[2]{\frac{\dd#1}{\dd#2}} \newcommand{\pdv}[2]{\frac{\partial#1}{\partial#2}} \newcommand{\bangle}[1]{\left\langle#1\right\rangle}
+\newcommand{\oldRe}[0]{\Re} \newcommand{\oldIm}[0]{\Im} \let\Re\relax
+\let\Im\relax \DeclareMathOperator{\Re}{Re} \DeclareMathOperator{\Im}{Im}
+
+%%%%% widecheck implementation
+%%%%%
+\usepackage{scalerel,stackengine}
+\stackMath
+\newcommand\widecheck[1]{%
+    \savestack{\tmpbox}{\stretchto{%
+            \scaleto{%
+                \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+                {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+            }{\textheight}% 
+        }{0.5ex}}%
+    \stackon[1pt]{#1}{\scalebox{-1}{\tmpbox}}%
+}
+
+%%%%%% BB1
+%%%%%%https://tex.stackexchange.com/questions/488/blackboard-bold-characters
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\newcommand{\ind}[0]{\mathbbold{1}}
+
+\newcommand{\coloneq}{\mathrel{\mathop:}=}
+\newcommand{\eqcolon}{=\mathrel{\mathop:}}
+
+%just a reminder that \lesssim has an opposite \gtrsim
+
+% THEOREMS -------------------------------------------------------
+%\newtheorem{thm}{Theorem}
+%\newtheorem{cor}[thm]{Corollary}
+%\newtheorem{lem}[thm]{Lemma}
+%\newtheorem{prop}[thm]{Proposition}
+%\theoremstyle{definition}
+%\newtheorem{question}[thm]{Question}
+%\newtheorem{defn}[thm]{Definition}
+%\newtheorem{example}[thm]{Example}
+%\theoremstyle{remark}
+%\newtheorem{rem}[thm]{Remark}
+%\numberwithin{equation}{section}
+\usepackage[framemethod=tikz]{mdframed}
+\mdfdefinestyle{tao}{linecolor=white,roundcorner=5pt,innertopmargin=0,backgroundcolor=yellow!7!white}
+\newmdtheoremenv[style=tao]{theorem}{Theorem}
+\newmdtheoremenv[style=tao]{corollary}[theorem]{Corollary}
+\newmdtheoremenv[style=tao]{lemma}[theorem]{Lemma}
+\newmdtheoremenv[style=tao]{proposition}[theorem]{Proposition}
+\newmdtheoremenv[style=tao]{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newmdtheoremenv[style=tao]{definition}[theorem]{Definition}
+\newmdtheoremenv[style=tao]{example}[theorem]{Example}
+\newmdtheoremenv[style=tao]{exercise}[theorem]{Exercise}
+% \theoremstyle{remark}
+\newmdtheoremenv[style=tao]{remark}[theorem]{Remark}
+\newmdtheoremenv[style=tao]{note}[theorem]{Note}
+\newmdtheoremenv[style=tao]{question}[theorem]{Question}
+
+% NAMES ----------------------------------------------------------
+\newcommand{\Holder}{H\"older\xspace}
+
+% extras
+
+\DeclareMathOperator{\dil}{dil}
+\DeclareMathOperator{\shr}{shr}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\trans}{tsp}
+\DeclareMathOperator{\supp}{supp}
+
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{\mathbb E}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Bias}{\operatorname{Bias}}
+\newcommand{\RSS}{\operatorname{RSS}}
+\newcommand{\RSE}{\operatorname{RSE}}
+\newcommand{\SE}{\operatorname{SE}}
+\newcommand{\TSS}{\operatorname{TSS}}
+\newcommand{\myhref}[2]{\href{#1}{\texttt{#2}}}
+
+
+\begin{document}
+\title{Quick notes on using scikit-learn and Pandas}
+\author{Calvin Khor}
+
+\date{Last compiled: \today}
+\maketitle
+
+\section{Introduction}
+While I was trying to learn these tools for data analysis, I found the available discussion online to be dated. These notes aim to get you using the newer features of scikit-learn quickly, to the point where you are comfortable creating your own estimators.
+\subsection{Setup}
+I will assume semi-recent versions of python (3.11), numpy (1.26), scipy (1.11.x), scikit-learn (1.3.2) and so on.
+
+In the first block of your Jupyter notebook I would keep all the imports that you add later, so that it is easy to restart. I would also recommend settings like the following:
+\begin{minted}{python}
+import pandas as pd
+pd.options.display.max_columns = 1000
+pd.options.display.max_rows = 2000
+pd.options.display.width = 1000
+pd.options.display.max_colwidth = 400
+\end{minted}
+Since \myhref{https://scikit-learn.org/stable/auto_examples/release_highlights/plot_release_highlights_1_2_0.html}{scikit-learn 1.2}, there is good interop with Pandas: you can configure all transformers to output pandas DataFrames globally.
+\begin{minted}{python}
+from sklearn import set_config
+set_config(transform_output="pandas")
+\end{minted}
+
+\section{Basic Usage}
+We will assume that we are trying to perform prediction on some labelled training data which we will store in \mintinline{python}!X!, \mintinline{python}!y!, and the test data in \mintinline{python}!X_test!.
+\begin{minted}{python}
+X = pd.read_csv("X_train.csv") 
+y_raw = pd.read_csv("Y_train.csv")  
+X_test = pd.read_csv("X_test.csv")
+y = y_raw["TARGET"]
+\end{minted}
+
+We will first assume that we want to design a \mintinline{python}!Pipeline!, fit it to the training data, predict with a regressor, and try to evaluate our performance. Later, we will see how to modify this to allow for gridsearching.
+
+\subsection{Pipeline}
+A a \mintinline{python}!Pipeline! is a way to combine estimators and predictors in a way that is easy to modify and develop. Documentation on \mintinline{python}!Pipeline!s \myhref{https://scikit-learn.org/stable/modules/compose.html\#build-a-pipeline}{here}. To understand them, we have to first explain what scikit-learn estimators are: these are the building blocks that either transform your data, or learn and predict from them. 
+An estimator \mintinline{python}!MyEstimator! is implemented as a Python class (usually inheriting from \mintinline{python}!BaseEstimator!). 
+If it transforms, it has an \mintinline{python}!MyEstimator.transform! method;
+learning is done with the \mintinline{python}!MyEstimator.fit! method, and
+prediction is done with the \mintinline{python}!MyEstimator.predict! method. 
+
+An example of a transformer is \mintinline{python}!StandardScaler! which\footnote{another useful scaler is the \mintinline{python}!RobustScaler! which uses quantile information and is therefore more robust to outliers.} scales to mean 0 and variance 1. 
+One needs to fit to learn the parameters and then transform, or the convenience method \mintinline{python}!fit_transform!:
+\begin{minted}{python}
+from sklearn.preprocessing import StandardScaler
+X_scaled = StandardScaler().fit(X).transform(X) 
+X_scaled = StandardScaler().fit_transform(X) # same as the above
+\end{minted}
+A very convenient transformer is the \mintinline{python}!FunctionTransformer! which applies an arbitrary Python function to the Pandas \mintinline{python}!DataFrame!. The function should take the dataframe as input, and return a new dataframe, which is the output of the \mintinline{python}!transform! method (\mintinline{python}!fit! is empty for \mintinline{python}!FunctionTransformer!s.) A simple example is if you wanted to drop a column called \mintinline{python}!"Rubbish"!, you could use\footnote{Keep in mind though lambdas will prevent the transformer from pickling.}
+\begin{minted}{python}
+from sklearn.preprocessing import FunctionTransformer
+X_clean = FunctionTransformer(lambda df: df.drop(["Rubbish"], axis=1)).transform(X)
+\end{minted}
+
+Once we are happy with the preprocessing, we need to make the predictions. For example we can fit e.g.\footnote{This includes the intercept term by default.} \mintinline{python}!LinearRegression! and predict on the test data:
+\begin{minted}{python}
+    from sklearn.linear_model import LinearRegression
+    ols = LinearRegression().fit(X,y)
+    y_test = ols.predict(X_test)
+\end{minted}
+The last thing to do is to evaluate the performance of our model. This will be project specific. The short answer is to use cross-validation since it is a model agnostic method of estimating the true error on an unforseen dataset, which is good for iterating to more complicated models. Cross-validation is implemented as part of many different functions in \texttt{scikit-learn} but for starters one can \mintinline{python}!from sklearn.model_selection import cross_validate!. 
+
+One can also use the training error as a rough upper bound but don't get too attached to it. Since we have the target predictions on the training set, we can plot the data. Below, I have some convenience functions defined in order to quickly evaluate the cross-validation score and plot the model's predictions against the target predictions. I'm using Spearman's rank correlation coefficient as a scoring method, which works better for nonlinear data.
+
+\begin{minted}{python}
+from scipy.stats import spearmanr
+from sklearn.metrics import make_scorer
+from sklearn.preprocessing import QuantileTransformer
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+def spearman_metric(y_pred, y=y):
+    """y_pred is the model prediction; y is the training data target"""
+    return spearmanr(y_pred, y).correlation
+spearman_scorer = make_scorer(spearman_metric)
+
+
+def grade(y_pred, y=y) -> None:
+    Xy = X[["COUNTRY"]].copy()
+    Xy["TARGET"] = y
+    Xy["PREDICTED"] = y_pred
+    Xy[["TARGET", "PREDICTED"]] = QuantileTransformer().fit_transform(
+        Xy[["TARGET", "PREDICTED"]]
+    )
+
+    _, ax = plt.subplots()
+    plt.plot(Xy["TARGET"], Xy["TARGET"], label="y=x (perfect model)", alpha=0.3)
+    sns.scatterplot(Xy, y="PREDICTED", x="TARGET", hue="COUNTRY", alpha=0.8, s=20)
+    plt.xlabel("Actual Values" + (" (quantile)" if quantile else ""))
+    plt.ylabel("Predicted Values" + (" (quantile)" if quantile else ""))
+    plt.title(
+        "Output vs Training Data\nSpearman correlation for the train set: {:.1f}%".format(
+            100 * spearman_metric(y_pred, y)
+        )
+    )
+    ax.legend(title=None)
+    plt.show()
+
+
+def perform_cv(
+    estimator, data, cv=5, scorer=spearman_scorer, show=True, y=y, n_jobs=1, verbose=0
+) -> pd.DataFrame:
+    """displays cv test scores and returns the result from the cv.
+    """
+    cv_results = cross_validate(
+        estimator, data, y, cv=cv, scoring=scorer, n_jobs=n_jobs, verbose=verbose
+    )
+    if show:
+        # Print the mean and standard deviation of the test scores
+        print(
+            "Spearman correlation for the cross validation: {:.1f}% ± {:.1f}%".format(
+                100 * cv_results["test_score"].mean(),
+                100 * cv_results["test_score"].std(),
+            )
+        )
+        print(f"Spearman correlation for each fold: {cv_results['test_score']}")
+    return pd.DataFrame(cv_results)
+\end{minted}
+\subsection{Finally, the Pipeline}
+The upshot of the above code is that Pipelines allow me to perform the entire data analysis in a very short Jupyter code block:
+\begin{minted}{python}
+pipe = Pipeline(
+    [
+        ("drop", FunctionTransformer(lambda df: df.drop(["COUNTRY"], axis=1))),
+        ("scale", RobustScaler()),
+        ("ols", LinearRegression()),
+    ]
+)
+pipe.fit(X, y)
+y_pred = pipe.predict(X)
+grade(y_pred, y)
+perform_cv(pipe, X)
+\end{minted}
+What a Pipeline is then, is a way to convert a sequence of transformers and a final predictor into a single estimator. 
+Calling \mintinline{python}!pipe.fit(X,y)! is equivalent to calling \mintinline{python}!fit_transform! on every transformer and fit on the predictor; calling \mintinline{python}!pipe.predict! calls \mintinline{python}!transform! on all the transformers and then \mintinline{python}!predict!:
+\begin{minted}{python}
+# need to define the estimators separately if not using a pipeline
+drop = FunctionTransformer(lambda df: df.drop(["COUNTRY"], axis=1))
+scale = RobustScaler()
+ols =  LinearRegression()
+# below is the same as pipe.fit(X,y)
+ols.fit(scale.fit_transform(drop.fit_transform(X)),y) 
+# below is the same as y_pred = pipe.predict(X)
+y_pred = ols.predict(scale.transform(drop.transform(X))) 
+\end{minted}
+Note in particular that the order of appearance of each estimator in the pipeline corresponds to the order in which they are called, but it is reversed (and nested) in the non-pipeline version.
+
+To use a pipeline, simply pass a list of tuples to the constructor. The second part of the tuple is simply the estimator, and the first part\footnote{There is a variant, \mintinline{python}!make_pipeline! that avoids needing a name by creating a default one from the transformer.
+} is a name that can be used to inspect parts of the pipe:
+\begin{minted}{python}
+# this pulls out the coefficients computed from ols
+pipe_bench.named_steps["ols"].coef_
+\end{minted}
+\section{Gridsearching}
+Suppose instead of \mintinline{python}!LinearRegression!, we wanted to use \mintinline{python}!Lasso!, which modifies the loss function for least squares by an \(L^1\) penalty term for the coefficients, i.e.
+\[ J(\beta) = \sum_{i=1}^n\lvert y_i-(X\beta)_i\rvert^2 + \alpha \sum_{j=1}^p\lvert\beta_j\rvert\]
+The parameter \(\alpha\) can be interpreted as a Lagrange multiplier. But since this minimisation problem cannot be solved symbolically, we have to treat it as a \emph{tuning parameter} and determine it experimentally.
+
+To use lasso, we import it and set up our pipeline:
+\begin{minted}{python}
+from sklearn.linear_model import Lasso
+pipe = Pipeline(
+    [
+        ("drop", FunctionTransformer(lambda df: df.drop(["COUNTRY"], axis=1))),
+        ("scale", RobustScaler()),
+        ("lasso", Lasso()),
+    ]
+)
+\end{minted}
+\texttt{scikit-learn} has many ways to search for an optimal parameter. The simplest is \mintinline{python}!GridSearchCV!, which performs an exhaustive search in the given parameter space. I have written some helper functions (\mintinline{python}!display_grid_params! and \mintinline{python}!report!) as well.
+The overall code is as follows:
+\begin{minted}{python}
+from icecream import ic
+import time
+# pipe code from above goes here
+tick = time.time()
+pipe.fit(X, y)
+time_for_one_fit = time.time() - tick
+ic(time_for_one_fit)
+param_grid = {
+    "model__alpha": [ 0.2 * np.exp(0.01 * k) for k in range(-5, 5)],
+}
+display_grid_params(param_grid, time_for_one_fit)
+grid = GridSearchCV(
+    pipe, param_grid=param_grid, cv=5, n_jobs=-1, scoring=spearman_scorer
+)
+grid.fit(X, y)
+report(grid)
+print("Predicting on train set using best params above:")
+y_best = grid.predict(X)
+grade(y_best, y)
+\end{minted}
+For completeness, the helper functions are:
+\begin{minted}{python}
+from icecream import ic
+import functools
+from operator import mul 
+def display_grid_params(params, time_for_one_fit=None):
+    params_size = functools.reduce(mul, (len(params[k]) for k in params))
+    note = f"The params grid has size {params_size}. "
+    if time_for_one_fit:
+        min, sec = divmod(time_for_one_fit * params_size, 60)
+        hr, min = divmod(min, 60)
+        note += f"Estimated time to completion: {hr}h {min}m {sec:.1f}s"
+    ic(note)
+    ic(params)
+
+
+def report(grid, n_top=3):
+    """Usage: fit outside the report with grid.fit(X,y). Then pass the cv_results_ to report.
+    """
+    cv_results_ = grid.cv_results_
+    grid_df = pd.DataFrame(cv_results_)[
+        ["params", "mean_test_score", "std_test_score", "rank_test_score"]
+    ].sort_values(by="rank_test_score")
+
+    if n_top != 0:
+        ic(grid.best_params_, grid.best_score_)
+    if n_top > 0:
+        display(grid_df.head(n_top))
+    elif n_top < 0:
+        display(grid_df)
+    return grid_df
+\end{minted}
+See \myhref{https://scikit-learn.org/stable/modules/grid_search.html}{this part} of the User Guide for more complicated (and potentially more efficient) methods of tuning hyper-parameters.
+\section{The need for custom estimators}
+The built-in estimators are powerful: 
+you can \myhref{https://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html\#plot-all-scaling-robust-scaler-section}
+{scale},
+\myhref{https://scikit-learn.org/stable/modules/impute.html\#impute}
+{impute missing values},
+\myhref{https://scikit-learn.org/stable/modules/feature_selection.html\#feature-selection}
+{select features},
+\myhref{https://scikit-learn.org/stable/modules/ensemble.html}
+{combine predictors together}, 
+and so on (see the 
+\myhref{https://scikit-learn.org/stable/user_guide.html}
+{User Guide}.) 
+But there are times when one has an idea that is hard to express with the defaults. 
+For this one needs to know how to create a custom estimator. See scikit-learn's 
+\myhref{https://scikit-learn.org/stable/developers/develop.html}
+{own tutorial}.
+We can start from the following useful but simple example, which I call
+\mintinline{python}!Tap!:
+\begin{minted}{python}
+class Tap(BaseEstimator, TransformerMixin):
+    """debugger"""
+
+    def __init__(self) -> None:
+        pass
+
+    def fit(self, X: pd.DataFrame, y=None):
+        self.X_ = X.copy()
+        return self
+
+    def transform(self, X):
+        return X
+\end{minted}
+Essentially, we always inherit from \mintinline{python}!BaseEstimator!
+(\myhref{https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html\#sklearn.base.BaseEstimator.get_params}
+{which} defines \mintinline{python}!.get_params! and \mintinline{python}!.set_params!). 
+Adding the \mintinline{python}!TransformerMixin! defines\footnote{
+it also defines \myhref{https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html\#sklearn-base-transformermixin}
+{set\_output} for Pandas, but the global setting is enough.
+} \mintinline{python}!fit_transform!, given that \mintinline{python}!fit! and \mintinline{python}!transform! are defined. 
+
+The only point of this class is so to save the DataFrame passed to it so that it can be inspected later. This helps with the development of other estimators and understanding your model.
+
+\mintinline{python}!Tap! doesn't need any parameters so the initialiser is empty. For more complicated estimators, I first quote from scikit-learn's \myhref{https://scikit-learn.org/stable/developers/develop.html}
+{own tutorial} an important point for interop with the scikit-learn estimators:
+\begin{quote}
+The object’s \mintinline{python}!__init__! method might accept constants as arguments that determine the estimator’s behavior (like the C constant in SVMs). It should not, however, take the actual training data as an argument, as this is left to the \mintinline{python}!fit()! method:
+\begin{minted}{python}
+clf2 = SVC(C=2.3)
+clf3 = SVC([[1, 2], [2, 3]], [-1, 1]) # WRONG!
+\end{minted}
+The arguments accepted by \mintinline{python}!__init__! should all be keyword arguments with a default value. In other words, a user should be able to instantiate an estimator without passing any arguments to it. The arguments should all correspond to hyperparameters describing the model or the optimisation problem the estimator tries to solve. These initial arguments (or parameters) are always remembered by the estimator. Also note that they should not be documented under the “Attributes” section, but rather under the “Parameters” section for that estimator.
+
+In addition, every keyword argument accepted by \mintinline{python}!__init__! should correspond to an attribute on the instance. Scikit-learn relies on this to find the relevant attributes to set on an estimator when doing model selection.
+
+To summarize, an \mintinline{python}!__init__! should look like:
+\begin{minted}{python}
+def __init__(self, param1=1, param2=2):
+    self.param1 = param1
+    self.param2 = param2
+\end{minted}
+There should be no logic, not even input validation, and the parameters should not be changed. The corresponding logic should be put where the parameters are used, typically in fit. 
+
+[\dots]
+
+The reason for postponing the validation is that the same validation would have to be performed in \mintinline{python}!set_params!, which is used in algorithms like \mintinline{python}!GridSearchCV!.
+\end{quote}
+Notably, the above convention is at odds with the usual Python conventions. With that out of the way, I present my \mintinline{python}!ColumnSubset! meta-estimator, which allows you to specify a column name, a list of names, or a function that transforms \mintinline{python}!X.columns! into the required list of column names, and then apply a transformer only to those columns. This \emph{can} be done in the simpler cases with \href{https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html}{\mintinline{python}!FeatureUnion!} or \href{https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html\#sklearn-compose-columntransformer}{\mintinline{python}!ColumnTransformer!} which come with \texttt{scikit-learn}, but I didn't like how \mintinline{python}!ColumnTransformer! changed the names of my columns, and I wanted more flexibility in choosing the columns.
+\begin{minted}{python}
+Estimator = Pipeline # just for type hinting
+def column_subset(
+    X: pd.DataFrame,
+    columns: str | list[str] | Callable | None = None,
+    ignore_columns: str | list[str] | Callable | None = None,
+):
+    if isinstance(columns, str):
+        out = [columns]
+    elif isinstance(columns, list):
+        out = columns
+    elif callable(columns):
+        out = columns(X.columns)
+    elif columns is None:
+        out = X.columns
+    else:
+        raise TypeError(f"Invalid type for columns={columns}")
+
+    if isinstance(ignore_columns, str):
+        out = [c for c in out if c != ignore_columns]
+    elif isinstance(ignore_columns, list):
+        out = [c for c in out if c not in ignore_columns]
+    elif callable(ignore_columns):
+        out = [c for c in out if c not in ignore_columns(X.columns)]
+    elif ignore_columns is None:
+        pass
+    else:
+        raise TypeError(f"Invalid type for ignore_columns={ignore_columns}")
+
+    return (out, [c for c in X.columns if c not in out])
+
+
+class ColumnSubset(BaseEstimator, TransformerMixin):
+    def __init__(
+        self,
+        estimator: Estimator,
+        columns: str | list[str] | Callable | None = None,
+        ignore_columns: str | list[str] | Callable | None = None,
+    ) -> None:
+        self.estimator = estimator
+        self.columns = columns
+        self.ignore_columns = ignore_columns
+
+    def fit(self, X: pd.DataFrame, y=None):
+        self.cols_, self.other_cols_ = column_subset(
+            X, columns=self.columns, ignore_columns=self.ignore_columns
+        )
+        self.estimator.fit(X[self.cols_], y)
+        return self
+
+    def transform(self, X: pd.DataFrame):
+        return pd.merge(
+            X[self.other_cols_],
+            self.estimator.transform(X[self.cols_]),
+            left_index=True,
+            right_index=True,
+\end{minted}
+I also created \mintinline{python}!ModelTransformer!, for using an (unsupervised) model's predictions to transform my features:
+\begin{minted}{python}
+class ModelTransformer(BaseEstimator, TransformerMixin):
+    """The `ModelTransformer` class is a custom transformer that fits a model on specified independent and
+    response columns, and transforms the input data by predicting the response values using the fitted
+    model."""
+
+    def __init__(
+        self,
+        model: Estimator,
+        indep_cols: list[str],
+        response_cols: list[str],
+    ):
+        self.model = model
+        self.indep_cols = indep_cols
+        self.response_cols = response_cols
+
+    def fit(self, X, y=None):
+        self.model.fit(X[self.indep_cols], X[self.response_cols])
+        return self
+
+    def transform(self, X: pd.DataFrame):
+        pre_out = pd.DataFrame(
+            self.model.predict(X[self.indep_cols]),
+            columns=[f"MT_{c}" for c in self.response_cols],
+            index=X.index,
+        )
+
+        return = pd.merge(
+            X,
+            pre_out,
+            left_index=True,
+            right_index=True,
+        )
+\end{minted}
+
+Finally, I want to share my \mintinline{python}!ModelSelector!, which switches between predictors based on a categorical variable. This allows you to fit two (or inductively, any number) different models in a single Pipeline.
+\begin{minted}{python}
+class ModelSelector(BaseEstimator, RegressorMixin):
+def __init__(
+    self,
+    model_0: Estimator,
+    model_1: Estimator,
+    cat_var: str,
+    drop_cat_var: bool = False,
+):
+    self.model_0 = model_0  
+    self.model_1 = model_1 
+    self.cat_var = cat_var
+    self.drop_cat_var = drop_cat_var
+
+def fit(self, X: pd.DataFrame, y):
+    # split the data based on the value of the categorical variable
+    X_0 = X[X[self.cat_var] == 0]
+    y_0 = y[X[self.cat_var] == 0]
+    X_1 = X[X[self.cat_var] == 1]
+    y_1 = y[X[self.cat_var] == 1]
+    if self.drop_cat_var:
+        X_0 = X_0.drop(columns=[self.cat_var])
+        X_1 = X_1.drop(columns=[self.cat_var])
+    # fit the models on the corresponding subsets of data
+    self.model_0.fit(X_0, y_0)
+    self.model_1.fit(X_1, y_1)
+    return self
+
+def predict(self, X):
+    # split the data based on the value of the categorical variable
+    X_0 = X[X[self.cat_var] == 0]
+    X_1 = X[X[self.cat_var] == 1]
+    if self.drop_cat_var:
+        X_0 = X_0.drop(columns=[self.cat_var])
+        X_1 = X_1.drop(columns=[self.cat_var])
+    # predict using the models on the corresponding subsets of data
+    y_pred_0 = self.model_0.predict(X_0)
+    y_pred_1 = self.model_1.predict(X_1)
+    # combine the predictions into a single array
+    y_pred = np.empty(len(X))
+    y_pred[X[self.cat_var] == 0] = y_pred_0
+    y_pred[X[self.cat_var] == 1] = y_pred_1
+    return y_pred
+\end{minted}
+\section{Further reading}
+I have made other more complicated estimators but they are too specific to the dataset. Hopefully the above examples have helped you learn how to use \texttt{scikit-learn} effectively. There are many \myhref{https://scikit-learn.org/stable/auto_examples/index.html}{more examples} on the website and the \myhref{https://scikit-learn.org/stable/user_guide.html}{User Guide} and the \myhref{https://scikit-learn.org/stable/modules/classes.html}{API docs} are very helpful. 
+\end{document}

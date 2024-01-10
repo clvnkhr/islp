@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{ModelTransformer}\PYG{p}{(}\PYG{n}{BaseEstimator}\PYG{p}{,} \PYG{n}{TransformerMixin}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}The `ModelTransformer` class is a custom transformer that fits a model on specified independent and}
+\PYG{l+s+sd}{    response columns, and transforms the input data by predicting the response values using the fitted}
+\PYG{l+s+sd}{    model.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}
+        \PYG{n+nb+bp}{self}\PYG{p}{,}
+        \PYG{n}{model}\PYG{p}{:} \PYG{n}{Estimator}\PYG{p}{,}
+        \PYG{n}{indep\PYGZus{}cols}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],}
+        \PYG{n}{response\PYGZus{}cols}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],}
+    \PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model} \PYG{o}{=} \PYG{n}{model}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{indep\PYGZus{}cols} \PYG{o}{=} \PYG{n}{indep\PYGZus{}cols}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{response\PYGZus{}cols} \PYG{o}{=} \PYG{n}{response\PYGZus{}cols}
+
+    \PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{indep\PYGZus{}cols}\PYG{p}{],} \PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{response\PYGZus{}cols}\PYG{p}{])}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}
+
+    \PYG{k}{def} \PYG{n+nf}{transform}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{:} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{):}
+        \PYG{n}{pre\PYGZus{}out} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{model}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{indep\PYGZus{}cols}\PYG{p}{]),}
+            \PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}MT\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{c}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{response\PYGZus{}cols}\PYG{p}{],}
+            \PYG{n}{index}\PYG{o}{=}\PYG{n}{X}\PYG{o}{.}\PYG{n}{index}\PYG{p}{,}
+        \PYG{p}{)}
+
+        \PYG{k}{return} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}
+            \PYG{n}{X}\PYG{p}{,}
+            \PYG{n}{pre\PYGZus{}out}\PYG{p}{,}
+            \PYG{n}{left\PYGZus{}index}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+            \PYG{n}{right\PYGZus{}index}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+        \PYG{p}{)}
+\end{Verbatim}

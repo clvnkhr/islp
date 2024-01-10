@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} this pulls out the coefficients computed from ols}
+\PYG{n}{pipe\PYGZus{}bench}\PYG{o}{.}\PYG{n}{named\PYGZus{}steps}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ols\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{coef\PYGZus{}}
+\end{Verbatim}

@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} need to define the estimators separately if not using a pipeline}
+\PYG{n}{drop} \PYG{o}{=} \PYG{n}{FunctionTransformer}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{df}\PYG{p}{:} \PYG{n}{df}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}COUNTRY\PYGZdq{}}\PYG{p}{],} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{))}
+\PYG{n}{scale} \PYG{o}{=} \PYG{n}{RobustScaler}\PYG{p}{()}
+\PYG{n}{ols} \PYG{o}{=}  \PYG{n}{LinearRegression}\PYG{p}{()}
+\PYG{c+c1}{\PYGZsh{} below is the same as pipe.fit(X,y)}
+\PYG{n}{ols}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{scale}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}\PYG{n}{drop}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)),}\PYG{n}{y}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} below is the same as y\PYGZus{}pred = pipe.predict(X)}
+\PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{ols}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{scale}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{drop}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)))}
+\end{Verbatim}

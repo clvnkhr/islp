@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{StandardScaler}
+\PYG{n}{X\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{StandardScaler}\PYG{p}{()}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}
+\PYG{n}{X\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{StandardScaler}\PYG{p}{()}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} same as the above}
+\end{Verbatim}

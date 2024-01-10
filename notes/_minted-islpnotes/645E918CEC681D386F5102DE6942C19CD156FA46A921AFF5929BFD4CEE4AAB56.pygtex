@@ -1,0 +1,57 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Estimator} \PYG{o}{=} \PYG{n}{Pipeline} \PYG{c+c1}{\PYGZsh{} just for type hinting}
+\PYG{k}{def} \PYG{n+nf}{column\PYGZus{}subset}\PYG{p}{(}
+    \PYG{n}{X}\PYG{p}{:} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{,}
+    \PYG{n}{columns}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{|} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]} \PYG{o}{|} \PYG{n}{Callable} \PYG{o}{|} \PYG{k+kc}{None} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{,}
+    \PYG{n}{ignore\PYGZus{}columns}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{|} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]} \PYG{o}{|} \PYG{n}{Callable} \PYG{o}{|} \PYG{k+kc}{None} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{,}
+\PYG{p}{):}
+    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{columns}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{p}{[}\PYG{n}{columns}\PYG{p}{]}
+    \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{columns}\PYG{p}{,} \PYG{n+nb}{list}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{n}{columns}
+    \PYG{k}{elif} \PYG{n+nb}{callable}\PYG{p}{(}\PYG{n}{columns}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{n}{columns}\PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)}
+    \PYG{k}{elif} \PYG{n}{columns} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}
+        \PYG{n}{out} \PYG{o}{=} \PYG{n}{X}\PYG{o}{.}\PYG{n}{columns}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{raise} \PYG{n+ne}{TypeError}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Invalid type for columns=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{columns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{ignore\PYGZus{}columns}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{p}{[}\PYG{n}{c} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{out} \PYG{k}{if} \PYG{n}{c} \PYG{o}{!=} \PYG{n}{ignore\PYGZus{}columns}\PYG{p}{]}
+    \PYG{k}{elif} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{ignore\PYGZus{}columns}\PYG{p}{,} \PYG{n+nb}{list}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{p}{[}\PYG{n}{c} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{out} \PYG{k}{if} \PYG{n}{c} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{ignore\PYGZus{}columns}\PYG{p}{]}
+    \PYG{k}{elif} \PYG{n+nb}{callable}\PYG{p}{(}\PYG{n}{ignore\PYGZus{}columns}\PYG{p}{):}
+        \PYG{n}{out} \PYG{o}{=} \PYG{p}{[}\PYG{n}{c} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{out} \PYG{k}{if} \PYG{n}{c} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{ignore\PYGZus{}columns}\PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)]}
+    \PYG{k}{elif} \PYG{n}{ignore\PYGZus{}columns} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}
+        \PYG{k}{pass}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{raise} \PYG{n+ne}{TypeError}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Invalid type for ignore\PYGZus{}columns=}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ignore\PYGZus{}columns}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{out}\PYG{p}{,} \PYG{p}{[}\PYG{n}{c} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{X}\PYG{o}{.}\PYG{n}{columns} \PYG{k}{if} \PYG{n}{c} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{out}\PYG{p}{])}
+
+
+\PYG{k}{class} \PYG{n+nc}{ColumnSubset}\PYG{p}{(}\PYG{n}{BaseEstimator}\PYG{p}{,} \PYG{n}{TransformerMixin}\PYG{p}{):}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}
+        \PYG{n+nb+bp}{self}\PYG{p}{,}
+        \PYG{n}{estimator}\PYG{p}{:} \PYG{n}{Estimator}\PYG{p}{,}
+        \PYG{n}{columns}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{|} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]} \PYG{o}{|} \PYG{n}{Callable} \PYG{o}{|} \PYG{k+kc}{None} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{,}
+        \PYG{n}{ignore\PYGZus{}columns}\PYG{p}{:} \PYG{n+nb}{str} \PYG{o}{|} \PYG{n+nb}{list}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{]} \PYG{o}{|} \PYG{n}{Callable} \PYG{o}{|} \PYG{k+kc}{None} \PYG{o}{=} \PYG{k+kc}{None}\PYG{p}{,}
+    \PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{k+kc}{None}\PYG{p}{:}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{estimator} \PYG{o}{=} \PYG{n}{estimator}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{columns} \PYG{o}{=} \PYG{n}{columns}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ignore\PYGZus{}columns} \PYG{o}{=} \PYG{n}{ignore\PYGZus{}columns}
+
+    \PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{:} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cols\PYGZus{}}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{other\PYGZus{}cols\PYGZus{}} \PYG{o}{=} \PYG{n}{column\PYGZus{}subset}\PYG{p}{(}
+            \PYG{n}{X}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{,} \PYG{n}{ignore\PYGZus{}columns}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ignore\PYGZus{}columns}
+        \PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{estimator}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cols\PYGZus{}}\PYG{p}{],} \PYG{n}{y}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}
+
+    \PYG{k}{def} \PYG{n+nf}{transform}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X}\PYG{p}{:} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}
+            \PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{other\PYGZus{}cols\PYGZus{}}\PYG{p}{],}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{estimator}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cols\PYGZus{}}\PYG{p}{]),}
+            \PYG{n}{left\PYGZus{}index}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+            \PYG{n}{right\PYGZus{}index}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+\end{Verbatim}

@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn} \PYG{k+kn}{import} \PYG{n}{set\PYGZus{}config}
+\PYG{n}{set\PYGZus{}config}\PYG{p}{(}\PYG{n}{transform\PYGZus{}output}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

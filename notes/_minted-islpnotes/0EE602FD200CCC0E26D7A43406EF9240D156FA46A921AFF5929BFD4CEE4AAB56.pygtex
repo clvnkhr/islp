@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{FunctionTransformer}
+\PYG{n}{X\PYGZus{}clean} \PYG{o}{=} \PYG{n}{FunctionTransformer}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{df}\PYG{p}{:} \PYG{n}{df}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}Rubbish\PYGZdq{}}\PYG{p}{],} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{))}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}
+\end{Verbatim}

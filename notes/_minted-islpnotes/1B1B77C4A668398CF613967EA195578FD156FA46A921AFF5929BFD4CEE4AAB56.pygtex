@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{icecream} \PYG{k+kn}{import} \PYG{n}{ic}
+\PYG{k+kn}{import} \PYG{n+nn}{time}
+\PYG{c+c1}{\PYGZsh{} pipe code from above goes here}
+\PYG{n}{tick} \PYG{o}{=} \PYG{n}{time}\PYG{o}{.}\PYG{n}{time}\PYG{p}{()}
+\PYG{n}{pipe}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit} \PYG{o}{=} \PYG{n}{time}\PYG{o}{.}\PYG{n}{time}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{n}{tick}
+\PYG{n}{ic}\PYG{p}{(}\PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit}\PYG{p}{)}
+\PYG{n}{param\PYGZus{}grid} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s2}{\PYGZdq{}model\PYGZus{}\PYGZus{}alpha\PYGZdq{}}\PYG{p}{:} \PYG{p}{[} \PYG{l+m+mf}{0.2} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(}\PYG{l+m+mf}{0.01} \PYG{o}{*} \PYG{n}{k}\PYG{p}{)} \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)],}
+\PYG{p}{\PYGZcb{}}
+\PYG{n}{display\PYGZus{}grid\PYGZus{}params}\PYG{p}{(}\PYG{n}{param\PYGZus{}grid}\PYG{p}{,} \PYG{n}{time\PYGZus{}for\PYGZus{}one\PYGZus{}fit}\PYG{p}{)}
+\PYG{n}{grid} \PYG{o}{=} \PYG{n}{GridSearchCV}\PYG{p}{(}
+    \PYG{n}{pipe}\PYG{p}{,} \PYG{n}{param\PYGZus{}grid}\PYG{o}{=}\PYG{n}{param\PYGZus{}grid}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{n\PYGZus{}jobs}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{scoring}\PYG{o}{=}\PYG{n}{spearman\PYGZus{}scorer}
+\PYG{p}{)}
+\PYG{n}{grid}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n}{report}\PYG{p}{(}\PYG{n}{grid}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Predicting on train set using best params above:\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{y\PYGZus{}best} \PYG{o}{=} \PYG{n}{grid}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}
+\PYG{n}{grade}\PYG{p}{(}\PYG{n}{y\PYGZus{}best}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\end{Verbatim}
