@@ -114,7 +114,7 @@
      $
   ]
   #v(-0.3em)
-  #answer[Simply note that
+  #uncover(2)[#answer[Simply note that
     $
     Var(alpha X + (1-alpha) Y) 
     // &= alpha^2 Var X + (1-alpha)^2 Var Y + 2 alpha (1-alpha) Cov(X,Y) \
@@ -123,7 +123,7 @@
     &= A(alpha + B/(2A))^2 + tilde(C)
     $
     where $A=sigma_X^2 + sigma_Y^2 - 2 sigma_(X Y)$ and $B= - 2 sigma_Y^2 + 2 sigma_(X Y)$, QED. 
-]
+]]
 ]
 
 #slide[
@@ -134,12 +134,12 @@
 + What is the probability that the second bootstrap observation is not the $j$th observation from the original sample?
 + Argue that the probability that the $j$th observation is not in the bootstrap sample is $(1 - 1/n)^n$.
   ]
-  #answer[
+  #uncover(2)[#answer[
     #set enum(numbering: "(a)")
     + $1-1/n$ since the bootstrap observation is uniformly randomly chosen.
     + Its sampling with replacement, so $1-1/n$.
     + $PP(j#"th obs not in boot sample")$ is the product as each bootstrap sample is independent.
-  ]
+  ]]
 ]
 
 #slide[
@@ -157,7 +157,7 @@
 // np.mean(store)
 // ```
   ]
-  #answer[
+  #uncover(2)[#answer[
 
     #set enum(numbering: "(a)", start: 4)
     #let f(n) = [$(1-1/#n)^#n$]
@@ -167,7 +167,7 @@
     + #ans(5)
     + #ans(100)
     + #ans(10000)
-  ]
+  ]]
 ]
 
 #slide[
@@ -175,13 +175,13 @@
 #set enum(numbering: "(a)", start: 7)
 + Create a plot that displays, for each integer value of $n$ from $1$ to $100 thin 000$, the probability that the $j$th observation is in the bootstrap sample. Comment on what you observe.
   ]
-  #answer[
+  #uncover(2)[#answer[
 
     #set enum(numbering: "(a)", start: 7)
     + #image(width:90%,"pics/ex2.png")
     (see #link("https://www.desmos.com/calculator/tdnzp6lfgb", "Desmos plot").) I observe convergence to $1/e$. Of course, this is because $ (1-1/n)^n = e^(n log(1-1/n)) 
     = e^(n(-1/n - 1/(2n^2) + O(1/n^3)) ) = e^(-1 -1/(2n) + O(1/n^2) ) = 1/e -1/(2 e n) + O(1/n^2). $
-  ]
+  ]]
 ]
 #slide[
   #question(title: "Exercise 2 cont. 3")[
@@ -197,9 +197,9 @@ np.mean(store)
 ```)
 (NB #link("https://www.statlearning.com/errata-python-edition", "typo corrected")) Comment on the results obtained.
   ]
-  #answer[
+  #uncover(2)[#answer[
     We get `0.6362`. The bootstrap sample size is $10 thin 000$, so the true probability is $1-#calc.pow(1-0.0001,10000)=#{1-calc.pow(1-0.0001,10000)}$ which is consistent.
-  ]
+  ]]
 ]
 
 #slide[
@@ -212,7 +212,7 @@ We now review $k$-fold cross-validation.
   + The validation set approach?
   + LOOCV?
   ]
-  #answer[
+  #uncover(2)[#answer[
     #set enum(numbering: "(a)")
 + Split the data randomly into $k$ bins. For each bin, train on the other $k-1$ bins and then test on the $k$th bin. Then report the average test error across bins $"CV"_((k)) = 1/k sum_(i=1)^k "MSE"_i$.
 + 
@@ -220,17 +220,17 @@ We now review $k$-fold cross-validation.
   + *Pros* Helps prevent fitting to the particular split \ 
    *Cons* not repeatable (unless seed fixed), more compute needed
   + *Pros* usually less compute needed, less variance (for small $k$) \ *Cons* not repeatable, higher bias
-  ]
+  ]]
 ]
 
 #slide[
   #question(title: "Exercise 4")[
      Suppose that we use some statistical learning method to make a prediction for the response $Y$ for a particular value of the predictor $X$. Carefully describe how we might estimate the standard deviation of our prediction.
   ]
-  #answer[
+  #uncover(2)[#answer[
     We use the bootstrap. First we use our method to make some small number $n$ of predictions $Y_i$. Then we use these to create $N>>n$ bootstrap samples $Y_i^* = (Y_(i 1)^*,...,Y_(i n)^*)$. Finally, our estimate for the standard deviation is the average of the bootstrap standard deviations, 
     $
     sigma_Y approx 1/N sum_(i=1)^N sigma_(Y_i^*) = 1/N sum_(i=1)^N sqrt(1/n sum_(j=1)^n Y_(i j)^(*2) - (1/n sum_(j=1)^n Y_(i j)^*)^2).
     $
-  ]
+  ]]
 ]
